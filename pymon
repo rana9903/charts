@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+import sys
+
+s = u'সালাম_বল'
+# s = u'La Pe\xf1a'
+print s   
