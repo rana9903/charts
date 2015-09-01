@@ -1,17 +1,16 @@
 #!/usr/bin/env python
-#
-#  Copyright (c) 2007-2008, Corey Goldberg (corey@goldb.org)
-#
-#  license: GNU LGPL
-#
-#  This library is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU Lesser General Public
-#  License as published by the Free Software Foundation; either
+# Copyright (c) 2007-2008, Corey Goldberg (corey@goldb.org)
+# license: GNU LGPL
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
 #  version 2.1 of the License, or (at your option) any later version.
+
 from ystock import *
 import time
 import datetime
 import math
+
 import re
 from pylab import *
 import numpy as np
@@ -25,16 +24,17 @@ sample usage:
 """
 # symbol_all = ['XIU.TO', 'XEG.TO', 'CNQ.TO', 'SU.TO','SVY.TO','CPG.TO','TLM.TO','NOK','F', 'BB.TO', 'XGD.TO','AGI.TO', 'BTO.TO','THI.TO', 'POT.TO', 'MFC.TO', ]
 # symbol_oil = ['XEG.TO', 'CNQ.TO', 'SU.TO', 'CPG.TO']
-_oil        =  ['XEG.TO', 'SU.TO', 'CNQ.TO','SVY.TO','CPG.TO','TLM.TO']
-_gold       = ['XGD.TO','AGI.TO', 'G.TO', 'ABX.TO' ]
+
+_oil        =  ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO', 'HSE.TO', 'ARX.TO','TOU.TO','VET.TO','SVY.TO']
+_gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    =  ['MFC.TO', 'THI.TO', 'XFN.TO']
-_all        = ['XFN.TO','XEG.TO', 'COS.TO','SU.TO', 'CNQ.TO','SVY.TO','CPG.TO','XGD.TO','AGI.TO', 'G.TO', 'ABX.TO','MFC.TO', 'BB.TO']
-
+_all        = _oil
+# _all = _gold
 #symbol = ['THI.TO','XEG.TO']
 data        = []
 today       =time.strftime("%Y%m%d")
-fromDate    ="20141120" 
+fromDate    ="20150620" 
 
 
 def filldata(stock_symbol):
@@ -126,7 +126,8 @@ def drawPlot(plotdata,ticker):
     x =[]
     i =0;
     for row in plotdata:
-        # print row 
+        # Filling  high, low, avhigh and avlow array from the plotdata
+        # This can be done smartly slicing entired column from plotdata  
         if len(row)>9 and ("Date" not in row[0]):
             high.append(float (row[2]))
             low.append(float (row[3]))
@@ -137,6 +138,8 @@ def drawPlot(plotdata,ticker):
             volume.append(row[5])
             i+=1
             x.append(i) 
+    #Reversing the value so that most lastest value stays on  the right side
+    #  
     high.reverse()
     low.reverse()
     avghigh.reverse()
@@ -144,8 +147,6 @@ def drawPlot(plotdata,ticker):
     closing.reverse()
     daysopen.reverse()
     
-
-
     
     fig = plt.figure()
     
@@ -166,6 +167,7 @@ def drawPlot(plotdata,ticker):
     ax1.grid(which='minor', axis='x', linewidth=0.75, linestyle='-', color='0.75')
     ax1.grid(which='major', axis='y', linewidth=0.40, linestyle='-', color='0.75')
     ax1.grid(which='minor', axis='y', linewidth=0.75, linestyle='-', color='0.75')
+
 
     show()
 
