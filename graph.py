@@ -5,7 +5,6 @@
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
 #  version 2.1 of the License, or (at your option) any later version.
-
 from ystock import *
 import time
 import datetime
@@ -28,14 +27,14 @@ _oil        = ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO'
 _gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    = ['MFC.TO', 'XFN.TO']
-_all        = ['XGD.TO']
+_all        = _lowrisk
 
 # _all = _gold
 #symbol = ['THI.TO','XEG.TO']
 data        = []    # This variable is used to fill all the data
 today       =time.strftime("%Y%m%d")
-fromDate    ="20151230"
-numberOfDays= 10  # Number of days we are trying to calculate the average high and low of the price
+fromDate    ="20161101"
+numberOfDays= 11  # Number of days we are trying to calculate the average high and low of the price
 
 def filldata(stock_symbol):
 # This function gets historical data and fill  Open, high, low,  last price and volume information in data[] variable.   
@@ -52,16 +51,16 @@ def filldata(stock_symbol):
     """
     During the day time if we run this above query it does not work welll. We need to insesert the data manually Updating the list with todays Data
     """
-    # if (time.strftime("%Y-%m-%d") not in data[1][0]):
-    #     today_data= get_all(stock_symbol)
-    #     data.insert(1,[])
-    #     data[1].append(time.strftime("%Y-%m-%d"))
-    #     data[1].append(today_data['open'])
-    #     data[1].append(today_data['days_high'])
-    #     data[1].append(today_data['days_low'])
-    #     data[1].append(today_data['last_price'])
-    #     data[1].append(today_data['volume'])
-    #     data[1].append(today_data['adj_close'])
+    if (time.strftime("%Y-%m-%d") not in data[1][0]):
+        today_data= get_all(stock_symbol)
+        data.insert(1,[])
+        data[1].append(time.strftime("%Y-%m-%d"))
+        data[1].append(today_data['open'])
+        data[1].append(today_data['days_high'])
+        data[1].append(today_data['days_low'])
+        data[1].append(today_data['last_price'])
+        data[1].append(today_data['volume'])
+        data[1].append(today_data['adj_close'])
         
 #Calculating Average High of the array average 
 def averagehigh(average):
@@ -127,6 +126,9 @@ def drawPlot(plotdata,ticker):
     closing =[]
     volume = []
     daysopen = []
+    marketvolume =[]
+
+
     x =[]   # value of X axis 
     i =0;   # Number of Rows 
 
@@ -142,6 +144,7 @@ def drawPlot(plotdata,ticker):
             closing.append(float(row[4]))
             daysopen.append(float(row[1]))
             volume.append(row[5])
+            marketvolume.append(int (row[5])* float(row[3]))
             i+=1
             x.append(i)
 
@@ -152,9 +155,13 @@ def drawPlot(plotdata,ticker):
     avglow.reverse()
     closing.reverse()
     daysopen.reverse()   
+    volume.reverse()
+    plt.close("all")
+
+
     fig = plt.figure()
     ax1 = fig.add_axes([0.05, 0.05, 0.9, 0.9])  # left, bottom, width, height (range 0 to 1)
-    
+        
     # ax2 =  fig.add_axes([0.05,0.05,.9,.2]
     # g-- o : green cirlce,  r--o: Red circle, k--o: 
     ax1.plot(x, high,'g--o', x, low,'r-o', x,avghigh,'k-o', x, avglow,'k-o', x, closing, 'b--o', x, daysopen, 'c--o', linewidth=2.0)
@@ -172,6 +179,10 @@ def drawPlot(plotdata,ticker):
     ax1.grid(which='minor', axis='x', linewidth=0.75, linestyle='-', color='0.75')
     ax1.grid(which='major', axis='y', linewidth=0.40, linestyle='-', color='0.75')
     ax1.grid(which='minor', axis='y', linewidth=0.75, linestyle='-', color='0.75')
+    
+    ax2 = ax1.twinx()
+    # ax2.plot(x, volume, 'y--o',x, marketvolume, 'y-o' )
+    ax2.plot(x, marketvolume, 'y-o' )
     show()
 
 for ticker in _all:
