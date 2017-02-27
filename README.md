@@ -9,5 +9,10 @@ https://www.reddit.com/r/investing/comments/3arfw9/keeping_track_of_earnings_dat
 How to add the crude oil Future price 
 https://www.quandl.com/tools/python
 
+Add Petrol Supply data 
 
-How to add News 
+
+How to add News
+
+
+
