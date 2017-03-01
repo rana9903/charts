@@ -26,6 +26,6 @@ Git commands:
  git commit -m "Added histrogham of low and high price"
  
  git push
-
+http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html
 
 
