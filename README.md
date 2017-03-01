@@ -22,7 +22,9 @@ pip install quandl
 Git commands:
 ----------------------------------------
  git add "File name"
+ 
  git commit -m "Added histrogham of low and high price"
+ 
  git push
 
 
