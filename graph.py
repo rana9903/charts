@@ -27,14 +27,15 @@ _oil        = ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO'
 _gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    = ['MFC.TO', 'XFN.TO']
-_all        = _lowrisk
+_all        = ['XGD.TO']
 
 # _all = _gold
 #symbol = ['THI.TO','XEG.TO']
 data        = []    # This variable is used to fill all the data
 today       =time.strftime("%Y%m%d")
-fromDate    ="20161101"
-numberOfDays= 11  # Number of days we are trying to calculate the average high and low of the price
+fromDate    ="20160801"
+numberOfDays= 12  # Number of days we are trying to calculate the average high and low of the price
+histrogramdata = []
 
 def filldata(stock_symbol):
 # This function gets historical data and fill  Open, high, low,  last price and volume information in data[] variable.   
@@ -116,6 +117,8 @@ def printData():
         if "Date" in row[0]:
             print "-" * 120 
 
+
+
 # Drawing the plot
 def drawPlot(plotdata,ticker):
     global data
@@ -147,8 +150,10 @@ def drawPlot(plotdata,ticker):
             marketvolume.append(int (row[5])* float(row[3]))
             i+=1
             x.append(i)
+            # histrogramdata = np.append(histrogramdata, np.repeat(row[3],row[5]))
+            # print histrogramdata
 
-    # Reversing the value so that most lastest value stays on the bottom because the graph need to put the lattest value on the right side of the graph
+   # Reversing the value so that most lastest value stays on the bottom because the graph need to put the lattest value on the right side of the graph
     high.reverse()
     low.reverse()
     avghigh.reverse()
@@ -180,10 +185,39 @@ def drawPlot(plotdata,ticker):
     ax1.grid(which='major', axis='y', linewidth=0.40, linestyle='-', color='0.75')
     ax1.grid(which='minor', axis='y', linewidth=0.75, linestyle='-', color='0.75')
     
+
+    # Adding the volume on The right side
     ax2 = ax1.twinx()
-    # ax2.plot(x, volume, 'y--o',x, marketvolume, 'y-o' )
-    ax2.plot(x, marketvolume, 'y-o' )
+    ax2.plot(x, volume, 'y--o' )
+
+    # Making the second figure for the plot
+    plt.figure(2)
+   # ?\ plt.hist(low, 50, alpha=0.5, label='low')
+    sortedhigh =sorted(high, reverse=True)
+    sortedlow = sorted (low, reverse = True)
+    print sortedlow 
+    data = np.vstack([sortedlow,sortedhigh]).T
+    plt.hist(data,50, alpha=0.7, label = ['low', 'high'])
+    plt. legend(loc = 'upper right')
+
+    #pyplot.hist(x, bins, alpha=0.5, label='x')
+#pyplot.hist(y, bins, alpha=0.5, label='y')
+#pyplot.legend(loc='upper right')
+
+    # ax2.plot(x, marketvolume, 'y-o' )
+    # plt.figure(2)
+    # mu = 100  # mean of distribution
+    # sigma = 15  # standard deviation of distribution
+    # x = mu + sigma * np.random.randn(437)
+    # # plt.plot(x, volume)
+    # # the histogram of the data
+    # plt.hist(x, 50, normed=1)
+    # print 
     show()
+
+
+
+
 
 for ticker in _all:
     filldata(ticker)
