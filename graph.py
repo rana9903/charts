@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-# Copyright (c) 2007-2008, Corey Goldberg (corey@goldb.org)
-# license: GNU LGPL
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-#  version 2.1 of the License, or (at your option) any later version.
+# Copyright (c) 2013-2014, Mohiuddin Rana(rana.ca@gmail.com)
+# This software is for my research Project and under developement. If you are planning to use it please email me.
+# The installation process may take a bit time. I am using ubuntu for everthing. May not work in windows system. 
+# Please let me know if you would like to me add any new features for this software. 
 from ystock import *
 import time
 import datetime
@@ -16,44 +14,36 @@ import numpy as np
 """
 sample usage:
 >>> import ystockquote
-
 >>> print ystockquote.get_price('GOOG')
-529.46
 """
-# symbol_all = ['XIU.TO', 'XEG.TO', 'CNQ.TO', 'SU.TO','SVY.TO','CPG.TO','TLM.TO','NOK','F', 'BB.TO', 'XGD.TO','AGI.TO', 'BTO.TO','THI.TO', 'POT.TO', 'MFC.TO', ]
-# symbol_oil = ['XEG.TO', 'CNQ.TO', 'SU.TO', 'CPG.TO']
-
 _oil        = ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO', 'HSE.TO', 'ARX.TO','TOU.TO','VET.TO','SVY.TO']
 _gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    = ['MFC.TO', 'XFN.TO']
-_all        = ['XGD.TO']
+_all        = ['XEG.TO']
 
-# _all = _gold
-#symbol = ['THI.TO','XEG.TO']
-data        = []    # This variable is used to fill all the data
+#Common Variable 
+data        = [] # This global variable is used to store all the data
 today       =time.strftime("%Y%m%d")
 fromDate    ="20160801"
-numberOfDays= 12  # Number of days we are trying to calculate the average high and low of the price
-histrogramdata = []
+numberOfDays= 12 # numberOfDays we are trying to calculate the average high and low of the price
+histrogramdata = [] 
 
 def filldata(stock_symbol):
 # This function gets historical data and fill  Open, high, low,  last price and volume information in data[] variable.   
-#  Also add 3 new new column header Average High, Average Low, Action 
+# Also adds 3 new column in header row: Average High, Average Low, Action 
 
     global data
    # Get historical data 
     data = get_historical_prices(stock_symbol, fromDate, today)
-    #Adding Extra Columns 
-    data[0].append("Average High") 
-    data[0].append("Average Low") 
-    data[0].append("Action") 
-   
+    #Adding Extra Columns header in row header
+    data[0].extend(["Average High", "Average Low", "Action"]) 
     """
-    During the day time if we run this above query it does not work welll. We need to insesert the data manually Updating the list with todays Data
+    During the day time if we run this above query it does not work welll. 
+    We need to insert the data manually Updating the list with todays Data
     """
     if (time.strftime("%Y-%m-%d") not in data[1][0]):
-        today_data= get_all(stock_symbol)
+        today_data= get_all(stock_symbol) #  This is retrive only today's price
         data.insert(1,[])
         data[1].append(time.strftime("%Y-%m-%d"))
         data[1].append(today_data['open'])
@@ -79,12 +69,11 @@ def averagelow(average):
             averagelow = averagelow+ float (listitem[3])
     return "{0:10.3f}".format(float(averagelow/len(average)))
 """
- Calculating last 10 days average high
+Calculating last 10 days average high
 Adding Bull vs Bear in graphCIBC R/EST 'FRAC
 """
 def addavgHighandLow():
     # Start days is the first day
-    # numberOfDays is the average Number of days we are trying to caluculate 
     global data
     start =1 # First row[0] is the header column 
     while (start+numberOfDays)<len(data):
@@ -100,11 +89,8 @@ def addavgHighandLow():
             data[start].append("----")
         start +=1
 
-# data.append(get_all("SU.TO"))
-# Printing the results 
 def printData():
     global data
-    # print data
     print "-" * 120 
     for row in data:
         if len(row)>9:
@@ -117,8 +103,6 @@ def printData():
         if "Date" in row[0]:
             print "-" * 120 
 
-
-
 # Drawing the plot
 def drawPlot(plotdata,ticker):
     global data
@@ -130,11 +114,8 @@ def drawPlot(plotdata,ticker):
     volume = []
     daysopen = []
     marketvolume =[]
-
-
     x =[]   # value of X axis 
     i =0;   # Number of Rows 
-
     for row in plotdata:
         # Filling  high, low, avhigh and avlow array from the plotdata
         # This can be done smartly slicing entired column from plotdata  
@@ -150,8 +131,6 @@ def drawPlot(plotdata,ticker):
             marketvolume.append(int (row[5])* float(row[3]))
             i+=1
             x.append(i)
-            # histrogramdata = np.append(histrogramdata, np.repeat(row[3],row[5]))
-            # print histrogramdata
 
    # Reversing the value so that most lastest value stays on the bottom because the graph need to put the lattest value on the right side of the graph
     high.reverse()
@@ -163,7 +142,7 @@ def drawPlot(plotdata,ticker):
     volume.reverse()
     plt.close("all")
 
-
+#Drawing the plot. 
     fig = plt.figure()
     ax1 = fig.add_axes([0.05, 0.05, 0.9, 0.9])  # left, bottom, width, height (range 0 to 1)
         
@@ -185,39 +164,18 @@ def drawPlot(plotdata,ticker):
     ax1.grid(which='major', axis='y', linewidth=0.40, linestyle='-', color='0.75')
     ax1.grid(which='minor', axis='y', linewidth=0.75, linestyle='-', color='0.75')
     
-
-    # Adding the volume on The right side
+   # Adding the volume on The right side
     ax2 = ax1.twinx()
     ax2.plot(x, volume, 'y--o' )
-
     # Making the second figure for the plot
     plt.figure(2)
-   # ?\ plt.hist(low, 50, alpha=0.5, label='low')
+   #Sorting the result because it does not  work well without sorting. I need to test it more  
     sortedhigh =sorted(high, reverse=True)
     sortedlow = sorted (low, reverse = True)
-    print sortedlow 
     data = np.vstack([sortedlow,sortedhigh]).T
     plt.hist(data,50, alpha=0.7, label = ['low', 'high'])
     plt. legend(loc = 'upper right')
-
-    #pyplot.hist(x, bins, alpha=0.5, label='x')
-#pyplot.hist(y, bins, alpha=0.5, label='y')
-#pyplot.legend(loc='upper right')
-
-    # ax2.plot(x, marketvolume, 'y-o' )
-    # plt.figure(2)
-    # mu = 100  # mean of distribution
-    # sigma = 15  # standard deviation of distribution
-    # x = mu + sigma * np.random.randn(437)
-    # # plt.plot(x, volume)
-    # # the histogram of the data
-    # plt.hist(x, 50, normed=1)
-    # print 
     show()
-
-
-
-
 
 for ticker in _all:
     filldata(ticker)
