@@ -1,4 +1,4 @@
-# stockcharts
+# stockMonitor
 Installa the moduels
 -----------------------------------------
 How to fix numbpy problem:
