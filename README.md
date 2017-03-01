@@ -36,6 +36,7 @@ Ideas
 ----------------------------------------
 How to add the Earning date:
 https://www.reddit.com/r/investing/comments/3arfw9/keeping_track_of_earnings_dates_python_script/
+
 How to add the crude oil Future price 
 https://www.quandl.com/tools/python
 
