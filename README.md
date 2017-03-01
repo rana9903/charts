@@ -23,8 +23,11 @@ $ pip install quandl
 Git commands:
 ----------------------------------------
 $ git remote add origin git@github.com:rana9903/stockcharts.git
+
 $ git add "File name"
+
 $ git commit -m "Added histrogham of low and high price"
+
 $ git push
 
 http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html
