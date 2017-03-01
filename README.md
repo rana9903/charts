@@ -11,14 +11,19 @@ https://www.quandl.com/tools/python
 
 Add Petrol Supply data 
 
-
 How to add News
-
+-----------------------------------------
 How to install PIP $ sudo apt-get install python-pip
 http://ask.xmodulo.com/install-pip-linux.html
 
 How to install quandl 
 pip install quandl
+
+Git commands:
+----------------------------------------
+ git add "File name"
+ git commit -m "Added histrogham of low and high price"
+ git push
 
 
 
