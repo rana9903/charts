@@ -48,3 +48,13 @@ http://stevehanov.ca/blog/index.php?id=39
 
 http://www.visualcapitalist.com/oil-bust-drags-canadian-dollar-to-historic-lows/
 
+Next big idea:
+------------------------------------------------
+-->  Close both graph on closing one
+-->  UI with a text box which We can enter for grahp and chart, Earnig date peformance data will be there automatically 
+---> Crude oil price, EIA inventory report will be there
+---> Important news will be also there 
+
+
+
+
