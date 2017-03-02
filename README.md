@@ -46,4 +46,5 @@ How to add News
 Stock market information scrapping:
 http://stevehanov.ca/blog/index.php?id=39
 
+http://www.visualcapitalist.com/oil-bust-drags-canadian-dollar-to-historic-lows/
 
