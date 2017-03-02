@@ -42,3 +42,8 @@ https://www.quandl.com/tools/python
 
 Add Petrol Supply data 
 How to add News
+
+Stock market information scrapping:
+http://stevehanov.ca/blog/index.php?id=39
+
+
