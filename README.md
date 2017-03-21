@@ -58,6 +58,9 @@ Next big idea:
 
 ---> Important news will be also there 
 
+QUANDL:
+How to use python
+http://help.quandl.com/category/183-using-quandl-from-python
 
 
 
