@@ -10,7 +10,8 @@ import math
 import re
 from pylab import *
 import numpy as np
-
+from termcolor import colored
+import urllib2
 """
 sample usage:
 >>> import ystockquote
@@ -20,14 +21,22 @@ _oil        = ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO'
 _gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    = ['MFC.TO', 'XFN.TO']
-_all        = ['XEG.TO']
+_all        =  ['XGD.TO']
 
 #Common Variable 
 data        = [] # This global variable is used to store all the data
 today       =time.strftime("%Y%m%d")
-fromDate    ="20160801"
+fromDate    ="20160701"
 numberOfDays= 12 # numberOfDays we are trying to calculate the average high and low of the price
 histrogramdata = [] 
+
+def internet_on():
+    try:
+        urllib2.urlopen('http://www.yahoo.com', timeout=5)
+        return True
+    except urllib2.URLError as err: 
+        return False
+
 
 def filldata(stock_symbol):
 # This function gets historical data and fill  Open, high, low,  last price and volume information in data[] variable.   
@@ -37,7 +46,7 @@ def filldata(stock_symbol):
    # Get historical data 
     data = get_historical_prices(stock_symbol, fromDate, today)
     #Adding Extra Columns header in row header
-    data[0].extend(["Average High", "Average Low", "Action"]) 
+    data[0].extend(["Average High", "Average Low", "Action", "Weakday"]) 
     """
     During the day time if we run this above query it does not work welll. 
     We need to insert the data manually Updating the list with todays Data
@@ -91,18 +100,35 @@ def addavgHighandLow():
 
 def printData():
     global data
+    
     print "-" * 120 
+    columntoPrint=0
+
     for row in data:
+        columntoPrint=columntoPrint+1
+        
+        if columntoPrint>90:
+            break   
+        # print row 
+
         if len(row)>9:
             # print "{0:^10} {1:>10} {2:>10} {3:>10} {4:>10} {5:>15} {6:>15} {7:>10} {8:>10} {9:>10}".\
             #     format(str(row[0]), str(row[1]), str(row[2]),str(row[3]),str(row[4]),\
             #     str(row[7]), str(row[8]), str(row[6]), str(row[5]), str(row[9]))
-            print "{0:^10} {1:>10} {2:>10} {3:>10} {4:>10} {5:>15} {6:>15}".\
-                format(str(row[0]), str(row[1]), str(row[2]),str(row[3]),str(row[4]),\
-                str(row[5]), str(row[9]))
+            weekday = '2010-01-12'
+            if "Date" not in row[0]:
+                weekday = datetime.datetime.strptime(row[0], '%Y-%m-%d').strftime('%A') 
+           
+            print "{0:^10} {1:>10} {2:>10} {3:>10} {4:>10} {5:>10} {6:>10} {7:15}".\
+                format(str(row[0]), str(row[1]), str(row[3]),str(row[2]),str(row[4]),\
+                str(row[5]), str(row[9]), str(weekday))
+
+        
+            # print datetime.datetime.strptime('2010-01-12', '%Y-%m-%d').strftime('%A') 
+
         if "Date" in row[0]:
             print "-" * 120 
-
+         
 # Drawing the plot
 def drawPlot(plotdata,ticker):
     global data
@@ -177,8 +203,17 @@ def drawPlot(plotdata,ticker):
     plt. legend(loc = 'upper right')
     show()
 
-for ticker in _all:
-    filldata(ticker)
-    addavgHighandLow()
-    printData()
-    drawPlot(data, ticker)
+def main ():  
+    if (internet_on()==True):
+        print "Parsing data from the net..."
+        for ticker in _all:
+            filldata(ticker)
+            addavgHighandLow()
+            printData()
+            drawPlot(data, ticker)
+    else: 
+        print "No Internet Connection"
+
+if __name__ == "__main__":
+    main() ## with if
+
