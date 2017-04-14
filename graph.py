@@ -12,6 +12,8 @@ from pylab import *
 import numpy as np
 from termcolor import colored
 import urllib2
+from classes.html import *
+
 """
 sample usage:
 >>> import ystockquote
@@ -21,7 +23,7 @@ _oil        = ['XEG.TO', 'SU.TO', 'CNQ.TO', 'CVE.TO','IMO.TO','CPG.TO', 'ECA.TO'
 _gold       = ['XGD.TO','G.TO','ABX.TO','FNV.TO','GOLD','AEM.TO', 'RGLD', 'ELD.TO','AU', 'K.TO','NEM','AGI.TO']
 _tech       = ['F','NOK','FB','BB.TO']
 _lowrisk    = ['MFC.TO', 'XFN.TO']
-_all        =  ['XGD.TO']
+_all        =  ['XEG.TO']
 
 #Common Variable 
 data        = [] # This global variable is used to store all the data
@@ -35,7 +37,7 @@ def internet_on():
         urllib2.urlopen('http://www.yahoo.com', timeout=5)
         return True
     except urllib2.URLError as err: 
-        return False
+        return True
 
 
 def filldata(stock_symbol):
@@ -205,12 +207,14 @@ def drawPlot(plotdata,ticker):
 
 def main ():  
     if (internet_on()==True):
+
         print "Parsing data from the net..."
-        for ticker in _all:
-            filldata(ticker)
-            addavgHighandLow()
-            printData()
-            drawPlot(data, ticker)
+        html1  = html("test")
+        html1.getHeader(test)
+
+        #     addavgHighandLow()
+        #     printData()
+        #     drawPlot(data, ticker)
     else: 
         print "No Internet Connection"
 
