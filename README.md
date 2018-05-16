@@ -34,6 +34,10 @@ I need the future data tha Qandl offers.
 --> Petroliam report data and dates 
 --> Learn Numpy and data anyalysis 
 
+How to use the API
+https://stackoverflow.com/questions/44088894/quandl-stock-api-historical-data
+
+
 How to use python
 http://help.quandl.com/category/183-using-quandl-from-python
 
