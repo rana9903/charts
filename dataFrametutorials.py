@@ -59,6 +59,16 @@ rank1      Alex  10.0     10
 
 """
 
+    print "How  to locate data"
+    print data.iloc[0, 0] # Will locate first record 
+    print data.iloc[2]['Close'] # will find the  3rd row from the top.  Always starts from when starting from the top
+    print data.iloc[-2]['Close']  # Will find the 2nd row from the bottom 
+
+
+    print "How to reverse the data "
+    data = data[::-1]
+    print data  
+
 
 """"
 https://www.tutorialspoint.com/python_pandas/python_pandas_dataframe.htm
