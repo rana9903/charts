@@ -308,6 +308,7 @@ Numbe of rows: 60
         
 
 """"
+https://www.youtube.com/watch?v=Fo0IMzfcnQE
 https://www.tutorialspoint.com/python_pandas/python_pandas_dataframe.htm
 https://stackoverflow.com/questions/12555323/adding-new-column-to-existing-dataframe-in-python-pandas
 
