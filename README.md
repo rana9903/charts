@@ -3,17 +3,9 @@
 
 Ideas
 ----------------------------------------
-How to add the Earning date:
-https://www.reddit.com/r/investing/comments/3arfw9/keeping_track_of_earnings_dates_python_script/
 
 How to add the crude oil Future price 
 https://www.quandl.com/tools/python
-
-Add Petrol Supply data 
-How to add News
-
-Stock market information scrapping:
-http://stevehanov.ca/blog/index.php?id=39
 
 http://www.visualcapitalist.com/oil-bust-drags-canadian-dollar-to-historic-lows/
 
